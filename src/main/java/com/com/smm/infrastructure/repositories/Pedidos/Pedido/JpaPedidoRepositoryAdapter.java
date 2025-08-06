@@ -1,11 +1,14 @@
 package com.com.smm.infrastructure.repositories.Pedidos.Pedido;
 
+import com.com.smm.domain.model.Pedidos.DetalleP;
 import com.com.smm.domain.model.Pedidos.Pedido;
 import com.com.smm.domain.ports.out.Pedidos.Pedido.PedidoRepositoryPort;
 import com.com.smm.infrastructure.entities.Pedidos.Pedidos;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -51,6 +54,14 @@ public class JpaPedidoRepositoryAdapter implements PedidoRepositoryPort {
             return Optional.of(updatedTaskEntity.toDomainModel());
         }
         return Optional.empty();
+    }
+
+
+
+    @Override
+    public Map<String, Object> obtenerDetallePedido(@Param("pedidoId") Long pedidoId) {
+        return jpaPedidoRepository.obtenerDetallePedido(pedidoId);
+
     }
 
     @Override

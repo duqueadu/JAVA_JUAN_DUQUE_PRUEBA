@@ -23,7 +23,6 @@ public class Producto {
 
     private BigDecimal precio;
 
-    private Long cantidad;
 
     private Long subcategoriaId;
 
@@ -35,12 +34,11 @@ public class Producto {
 
     private Date fechaCreacion;
 
-    public Producto(Long id, String nombre, String descripcion, BigDecimal precio, Long cantidad, Long subcategoriaId, Long categoriaId, Long proveedorId, Long stock, Date fechaCreacion) {
+    public Producto(Long id, String nombre, String descripcion, BigDecimal precio, Long subcategoriaId, Long categoriaId, Long proveedorId, Long stock, Date fechaCreacion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.cantidad = cantidad;
         this.subcategoriaId = subcategoriaId;
         this.categoriaId = categoriaId;
         this.proveedorId = proveedorId;
@@ -68,9 +66,6 @@ public class Producto {
         this.precio = precio;
     }
 
-    public void setCantidad(Long cantidad) {
-        this.cantidad = cantidad;
-    }
 
     public void setSubcategoriaId(Long subcategoriaId) {
         this.subcategoriaId = subcategoriaId;
@@ -108,9 +103,6 @@ public class Producto {
         return precio;
     }
 
-    public Long getCantidad() {
-        return cantidad;
-    }
 
     public Long getSubcategoriaId() {
         return subcategoriaId;

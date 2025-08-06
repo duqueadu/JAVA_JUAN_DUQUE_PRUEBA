@@ -354,5 +354,23 @@ public class ApplicationConfig {
 
 
 
+    @Bean
+    public DetallePedidoService detallePedidoService(DetallePedidoRepositoryPort detallePedidoRepositoryPort) {
+        return new DetallePedidoService(
+                new CreateDetallePedidoUseCaseImpl(detallePedidoRepositoryPort),
+                new RetrieveDetallePedidoUseCaseImpl(detallePedidoRepositoryPort),
+                new UpdateDetallePedidoUseCaseImpl(detallePedidoRepositoryPort),
+                new DeleteDetallePedidoUseCaseImpl(detallePedidoRepositoryPort)
+        );
+    }
+
+
+
+    @Bean
+    public DetallePedidoRepositoryPort detallePedidoRepositoryPort(JpaDetallePedidoRepositoryAdapter j) {
+        return j;
+    }
+
+
 
 }

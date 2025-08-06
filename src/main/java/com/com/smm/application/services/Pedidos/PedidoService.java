@@ -2,6 +2,7 @@ package com.com.smm.application.services.Pedidos;
 
 
 
+import com.com.smm.domain.model.Pedidos.DetalleP;
 import com.com.smm.domain.model.Pedidos.Pedido;
 import com.com.smm.domain.ports.in.Pedidos.Pedido.CreatePedidoUseCase;
 import com.com.smm.domain.ports.in.Pedidos.Pedido.DeletePedidoUseCase;
@@ -10,6 +11,7 @@ import com.com.smm.domain.ports.in.Pedidos.Pedido.UpdatePedidoUseCase;
 import com.com.smm.infrastructure.entities.Pedidos.Pedidos;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class PedidoService implements CreatePedidoUseCase, RetrievePedidoseCase, UpdatePedidoUseCase, DeletePedidoUseCase {
@@ -41,6 +43,11 @@ public class PedidoService implements CreatePedidoUseCase, RetrievePedidoseCase,
     @Override
     public List<Pedido> getAllPedido() {
         return retrievePedidosUseCase.getAllPedido();
+    }
+
+    @Override
+    public Map<String, Object> obtenerDetallePedido(Long pedidoId) {
+        return retrievePedidosUseCase.obtenerDetallePedido(pedidoId);
     }
 
     @Override

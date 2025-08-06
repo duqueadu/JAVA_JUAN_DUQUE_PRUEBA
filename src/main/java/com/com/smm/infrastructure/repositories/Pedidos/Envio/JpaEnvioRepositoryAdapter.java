@@ -18,10 +18,7 @@ public class JpaEnvioRepositoryAdapter implements EnvioRepositoryPort {
         this.jpaEnvioRepository = jpaEnvioRepository;
     }
 
-    @Override
-    public Envios save(Envios Envio) {
-        return null;
-    }
+
 
     @Override
     public Envio save(Envio Envio) {

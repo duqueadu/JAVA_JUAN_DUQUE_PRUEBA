@@ -86,11 +86,10 @@ public class JpaUsuarioRepositoryAdapter implements UsuarioRepositoryPort {
 
         return TokenGenerator.generateToken(usuario.getEmail(),usuario.getId(),usuario.getRol());
     }
-
-
-
-
-
+    @Override
+    public List<?> clienteMas() {
+        return usuarioRepository.clienteMas();
+    }
 
 
 }

@@ -58,6 +58,11 @@ public class UsuarioService implements CreateUsuarioUseCase, RetrieveUsuarioUseC
     }
 
     @Override
+    public List<?> clienteMas() {
+        return retrieveUsuarioUseCase.clienteMas();
+    }
+
+    @Override
     public Optional<Usuario> updateUsuario(Long id, Usuario updatedUsuario) {
         return updateUsuarioUseCase.updateUsuario(id, updatedUsuario);
     }

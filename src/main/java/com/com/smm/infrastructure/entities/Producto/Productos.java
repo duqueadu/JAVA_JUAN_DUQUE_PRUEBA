@@ -25,8 +25,6 @@ public class Productos {
     @Column(name = "precio", nullable = false, precision = 10, scale = 2)
     private BigDecimal precio;
 
-    @Column(name = "cantidad", nullable = false)
-    private Long cantidad;
 
     @Column(name = "subcategoria_id")
     private Long subcategoriaId;
@@ -50,12 +48,11 @@ public class Productos {
 
     // Constructor parametrizado
 
-    public Productos(Long id, String nombre, String descripcion, BigDecimal precio, Long cantidad, Long subcategoriaId, Long categoriaId, Long proveedorId, Long stock, Date fechaCreacion) {
+    public Productos(Long id, String nombre, String descripcion, BigDecimal precio, Long subcategoriaId, Long categoriaId, Long proveedorId, Long stock, Date fechaCreacion) {
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.precio = precio;
-        this.cantidad = cantidad;
         this.subcategoriaId = subcategoriaId;
         this.categoriaId = categoriaId;
         this.proveedorId = proveedorId;
@@ -98,13 +95,7 @@ public class Productos {
         this.precio = precio;
     }
 
-    public Long getCantidad() {
-        return cantidad;
-    }
 
-    public void setCantidad(Long cantidad) {
-        this.cantidad = cantidad;
-    }
 
     public Long getSubcategoriaId() {
         return subcategoriaId;
@@ -152,7 +143,6 @@ public class Productos {
                 producto.getNombre(),
                 producto.getDescripcion(),
                 producto.getPrecio(),
-                producto.getCantidad(),
                 producto.getSubcategoriaId(),   // Ajustado para obtener el ID de la subcategoría
                 producto.getCategoriaId(),      // Ajustado para obtener el ID de la categoría
                 producto.getProveedorId(),      // Ajustado para obtener el ID del proveedor
@@ -168,7 +158,6 @@ public class Productos {
                 this.nombre,
                 this.descripcion,
                 this.precio,
-                this.cantidad,
                 this.subcategoriaId,   // ID de la subcategoría
                 this.categoriaId,      // ID de la categoría
                 this.proveedorId,      // ID del proveedor

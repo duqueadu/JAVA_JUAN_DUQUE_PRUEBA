@@ -52,6 +52,11 @@ public class ProductoService implements CreateProductoUseCase, RetrieveProductoU
     }
 
     @Override
+    public List<?> pmasvendido() {
+        return retrieveProductosUseCase.pmasvendido();
+    }
+
+    @Override
     public List<?> productoDetalle() {
         return retrieveProductosUseCase.productoDetalle();
     }

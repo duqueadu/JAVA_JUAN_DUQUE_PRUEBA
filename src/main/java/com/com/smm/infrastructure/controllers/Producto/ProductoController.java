@@ -1,7 +1,6 @@
 package com.com.smm.infrastructure.controllers.Producto;
 
 import com.com.smm.application.services.Producto.ProductoService;
-import com.com.smm.domain.model.Producto.Filtro;
 import com.com.smm.domain.model.Producto.Producto;
 
 import com.com.smm.infrastructure.entities.Producto.Productos;
@@ -11,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/Producto")
@@ -76,7 +77,11 @@ public class ProductoController {
 
     }
 
+    @GetMapping("/pmasvendido")
+    public List<?> pmasvendido() {
+        return productoservice.pmasvendido();
 
+    }
 
     @GetMapping("/producto")
     public List<?> someMethod(int id) {
@@ -101,6 +106,52 @@ public class ProductoController {
         return ResponseEntity.ok(productoservice.buscarPorNombreYCategoria(nombre, categoriaId));
     }
 
+
+
+    @PostMapping("/actualizarStock")
+    public ResponseEntity<Producto> actualizarStock(@RequestBody Map<String, Object> request) {
+        try {
+            // Validación de los campos esperados
+            if (!request.containsKey("productoId") || !request.containsKey("cantidadCompra")) {
+                return error("Faltan campos requeridos: 'productoId' y 'cantidadCompra'.", HttpStatus.BAD_REQUEST);
+            }
+
+            Long productoId = Long.valueOf(request.get("productoId").toString());
+            int cantidad = Integer.parseInt(request.get("cantidadCompra").toString());
+
+            if (cantidad < 0) {
+                return error("La cantidad de compra no puede ser negativa.", HttpStatus.BAD_REQUEST);
+            }
+
+            return productoservice.getProductoById(productoId)
+                    .map(producto -> {
+                        long nuevoStock = producto.getStock() + cantidad;
+                        if (nuevoStock < 0) {
+                            return error("No hay suficiente stock para la compra.", HttpStatus.BAD_REQUEST);
+                        }
+
+                        producto.setStock(nuevoStock);
+                        try {
+                            productoservice.updateProducto(producto.getId(), Productos.fromDomainModel(producto));
+                            return ResponseEntity.ok(producto);
+                        } catch (Exception e) {
+                            return error("Error al actualizar el producto: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+                        }
+                    })
+                    .orElseGet(() -> error("Producto no encontrado.", HttpStatus.NOT_FOUND));
+
+        } catch (NumberFormatException e) {
+            return error("Formato inválido para 'productoId' o 'cantidadCompra'.", HttpStatus.BAD_REQUEST);
+        } catch (Exception e) {
+            return error("Error inesperado: " + e.getMessage(), HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+    private ResponseEntity<Producto> error(String mensaje, HttpStatus status) {
+        Producto errorProducto = new Producto();
+        errorProducto.setNombre("Error: " + mensaje);
+        return new ResponseEntity<>(errorProducto, status);
+    }
 
 
 

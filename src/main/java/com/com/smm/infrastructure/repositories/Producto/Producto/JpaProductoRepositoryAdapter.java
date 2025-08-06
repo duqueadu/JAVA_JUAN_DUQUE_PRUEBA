@@ -3,10 +3,8 @@ package com.com.smm.infrastructure.repositories.Producto.Producto;
 import com.com.smm.domain.model.Producto.Producto;
 import com.com.smm.domain.ports.out.Producto.Producto.ProductosRepositoryPort;
 import com.com.smm.infrastructure.entities.Producto.Productos;
-import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -94,6 +92,13 @@ public class JpaProductoRepositoryAdapter implements ProductosRepositoryPort {
             return true;
         }
         return false;
+    }
+
+
+    @Override
+    public List<?> pmasvendido() {
+        return JpaProductoRepository.pmasvendido();
+
     }
 
     @Override

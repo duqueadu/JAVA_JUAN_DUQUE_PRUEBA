@@ -14,7 +14,7 @@ public interface UsuarioRepositoryPort {
     Usuario save(Usuario usuario);
     Optional<Usuario> findById(Long id);
     List<Usuario> findAll();
-
+    List<?> clienteMas();
     Optional<Usuario> update(Usuarios usuario);
 
     Optional<Usuario> update(Usuario usuario);

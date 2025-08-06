@@ -115,7 +115,25 @@ public class UsuarioController {
             return Usuarios;
         }
 
-        @PutMapping("/{UsuarioId}")
+    @GetMapping("/usuariosMas")
+    public List<Usuario> usuariosMas() {
+        List<Object[]> datosCrudos = (List<Object[]>) UsuarioService.clienteMas();
+
+        List<Usuario> usuarios = datosCrudos.stream().map(obj -> {
+            Usuario u = new Usuario();
+
+            u.setId(Long.parseLong(obj[0].toString())); // ← aquí la conversión segura
+            u.setNombre((String) obj[1]);
+            u.setEmail((String) obj[2]);
+
+            return u;
+        }).toList();
+
+        return usuarios;
+    }
+
+
+    @PutMapping("/{UsuarioId}")
         public ResponseEntity<Usuario> updateUsuario(@PathVariable Long UsuarioId, @RequestBody Usuario updatedUsuario) {
             return UsuarioService.updateUsuario(UsuarioId, updatedUsuario)
                     .map(Usuario -> new ResponseEntity<>(Usuario, HttpStatus.OK))

@@ -11,7 +11,7 @@ public interface RetrieveProductoUseCase {
     Optional<Producto> getProductoById(Long id);
 
     List<Producto> getProducto();
-
+    List<?> pmasvendido();
     List<?> productoDetalle();
     List<?> productoDetalleId(int id);
 

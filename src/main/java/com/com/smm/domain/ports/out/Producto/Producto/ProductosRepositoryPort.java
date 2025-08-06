@@ -31,6 +31,8 @@ public interface ProductosRepositoryPort {
     Optional<Producto> update(Producto producto);
     boolean deleteById(Long id);
 
+    List<?> pmasvendido();
+
     List<?> buscarPorNombreYCategoria(@Param("nombre") String nombre, @Param("categoriaId") Long categoriaId);
 
 

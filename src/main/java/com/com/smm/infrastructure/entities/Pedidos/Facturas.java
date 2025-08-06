@@ -10,18 +10,19 @@ public class Facturas {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
+
     @JoinColumn(name = "pedido_id")
-    private Pedidos peridoId;
+    private int pedidoId;
+
     private Long total;
     private String estado;
 
     public Facturas() {
     }
 
-    public Facturas(Long id, Pedidos peridoId, Long total, String estado) {
+    public Facturas(Long id, int pedidoId, Long total, String estado) {
         this.id = id;
-        this.peridoId = peridoId;
+        this.pedidoId = pedidoId;
         this.total = total;
         this.estado = estado;
     }
@@ -34,12 +35,12 @@ public class Facturas {
         this.id = id;
     }
 
-    public Pedidos getPeridoId() {
-        return peridoId;
+    public int getPeridoId() {
+        return pedidoId;
     }
 
-    public void setPeridoId(Pedidos peridoId) {
-        this.peridoId = peridoId;
+    public void setPeridoId(int pedidoId) {
+        this.pedidoId = pedidoId;
     }
 
     public Long getTotal() {
@@ -63,7 +64,7 @@ public class Facturas {
     }
 
     public com.com.smm.domain.model.Pedidos.Factura toDomainModel() {
-        return new com.com.smm.domain.model.Pedidos.Factura( id,  peridoId,  total,  estado) ;
+        return new com.com.smm.domain.model.Pedidos.Factura( id,  pedidoId,  total,  estado) ;
     }
 
 

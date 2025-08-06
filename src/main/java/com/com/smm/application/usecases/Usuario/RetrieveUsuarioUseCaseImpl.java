@@ -24,4 +24,9 @@ public class RetrieveUsuarioUseCaseImpl implements RetrieveUsuarioUseCase {
     public List<Usuario> getAllUsuarios() {
         return UsuarioRepositoryPort.findAll();
     }
+
+    @Override
+    public List<?> clienteMas() {
+        return UsuarioRepositoryPort.clienteMas();
+    }
 }

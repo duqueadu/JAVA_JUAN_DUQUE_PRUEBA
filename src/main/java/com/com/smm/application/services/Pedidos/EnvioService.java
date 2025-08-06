@@ -27,8 +27,10 @@ public class EnvioService implements CreateEnvioUseCase, RetrieveEnvioUseCase, U
         this.deleteEnviosUseCase = deleteEnviosUseCase;
     }
 
+
+
     @Override
-    public Envios createEnvio(Envios Envios) {
+    public Envio createEnvio(Envio Envios) {
         return createEnvioUseCase.createEnvio(Envios);
     }
 

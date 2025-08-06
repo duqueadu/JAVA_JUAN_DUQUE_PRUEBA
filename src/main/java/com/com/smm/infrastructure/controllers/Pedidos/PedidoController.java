@@ -1,13 +1,19 @@
 package com.com.smm.infrastructure.controllers.Pedidos;
 
 import com.com.smm.application.services.Pedidos.PedidoService;
+import com.com.smm.domain.model.Pedidos.DetalleP;
 import com.com.smm.domain.model.Pedidos.Pedido;
 import com.com.smm.domain.model.Seguridad.RolPermiso;
 import com.com.smm.infrastructure.entities.Pedidos.Pedidos;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/Pedido")
@@ -20,13 +26,12 @@ public class PedidoController {
     }
 
     @PostMapping()
-    public ResponseEntity<Pedido> createPedido(@RequestBody Pedido pedido) {
-        if (pedido.getEstado() == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        Pedido createdPedido = pedidoService.createPedido(pedido);
+    public ResponseEntity<Pedido> createPedido(@RequestBody Pedido p) {
+
+        Pedido createdPedido = pedidoService.createPedido(p);
         return new ResponseEntity<>(createdPedido, HttpStatus.CREATED);
     }
+
 
     @GetMapping("/{PedidoId}")
     public ResponseEntity<Pedido> getPedidoById(@PathVariable Long PedidoId) {
@@ -60,5 +65,11 @@ public class PedidoController {
         } else {
             return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
+    }
+
+
+    @GetMapping("obtenerDetallePedido/{PedidoId}")
+    public Map<String, Object> detallePedido(@PathVariable Long PedidoId) {
+        return pedidoService.obtenerDetallePedido(PedidoId);
     }
 }

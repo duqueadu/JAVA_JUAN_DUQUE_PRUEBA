@@ -1,10 +1,11 @@
 package com.com.smm.domain.ports.in.Pedidos.Envio;
 
 
+import com.com.smm.domain.model.Pedidos.Envio;
 import com.com.smm.infrastructure.entities.Pedidos.Envios;
 
 
 
 public interface CreateEnvioUseCase {
-    Envios createEnvio(Envios Envios);
+    Envio createEnvio(Envio Envios);
 }

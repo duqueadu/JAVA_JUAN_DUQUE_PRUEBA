@@ -2,11 +2,14 @@ package com.com.smm.application.usecases.Pedidos.Pedido;
 
 
 
+import com.com.smm.domain.model.Pedidos.DetalleP;
 import com.com.smm.domain.model.Pedidos.Pedido;
 import com.com.smm.domain.ports.in.Pedidos.Pedido.RetrievePedidoseCase;
 import com.com.smm.domain.ports.out.Pedidos.Pedido.PedidoRepositoryPort;
+import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 public class RetrievePedidoUseCaseImpl implements RetrievePedidoseCase {
@@ -28,4 +31,11 @@ public class RetrievePedidoUseCaseImpl implements RetrievePedidoseCase {
     public List<Pedido> getAllPedido() {
         return PedidoRepositoryPort.findAll();
     }
+
+    @Override
+    public Map<String, Object> obtenerDetallePedido(@Param("pedidoId") Long pedidoId) {
+
+        return PedidoRepositoryPort.obtenerDetallePedido(pedidoId);
+    }
+
 }

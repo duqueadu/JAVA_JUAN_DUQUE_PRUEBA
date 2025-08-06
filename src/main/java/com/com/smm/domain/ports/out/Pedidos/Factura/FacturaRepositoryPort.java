@@ -19,5 +19,4 @@ public interface FacturaRepositoryPort {
     Optional<Factura> update(Factura Factura);
     boolean deleteById(Long id);
 
-    Facturas save(Facturas facturas);
 }

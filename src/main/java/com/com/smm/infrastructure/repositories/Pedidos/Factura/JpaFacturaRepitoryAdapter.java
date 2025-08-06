@@ -18,10 +18,6 @@ public class JpaFacturaRepitoryAdapter implements FacturaRepositoryPort {
         this.jpaFacturaRepository = jpaFacturaRepository;
     }
 
-    @Override
-    public Facturas save(Facturas Factura) {
-        return null;
-    }
 
     @Override
     public Factura save(Factura Factura) {
@@ -65,4 +61,6 @@ public class JpaFacturaRepitoryAdapter implements FacturaRepositoryPort {
         }
         return false;
     }
+
+
 }

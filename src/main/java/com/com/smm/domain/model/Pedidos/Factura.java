@@ -9,13 +9,13 @@ public class Factura {
 
 
     private Long id;
-    private Pedidos peridoId;
+    private int pedidoId;
     private Long total;
     private String estado;
 
-    public Factura(Long id, Pedidos peridoId, Long total, String estado) {
+    public Factura(Long id, int pedidoId, Long total, String estado) {
         this.id = id;
-        this.peridoId = peridoId;
+        this.pedidoId = pedidoId;
         this.total = total;
         this.estado = estado;
     }
@@ -28,12 +28,12 @@ public class Factura {
         this.id = id;
     }
 
-    public Pedidos getPeridoId() {
-        return peridoId;
+    public int getPeridoId() {
+        return pedidoId;
     }
 
-    public void setPeridoId(Pedidos peridoId) {
-        this.peridoId = peridoId;
+    public void setPeridoId(int peridoId) {
+        this.pedidoId = peridoId;
     }
 
     public Long getTotal() {

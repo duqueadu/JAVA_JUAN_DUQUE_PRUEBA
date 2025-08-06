@@ -28,7 +28,7 @@ public class FacturaService implements CreateFacturaUseCase, RetrieveFacturaUseC
     }
 
     @Override
-    public Facturas createFactura(Facturas Facturas) {
+    public Factura createFactura(Factura Facturas) {
         return createFacturaUseCase.createFactura(Facturas);
     }
 

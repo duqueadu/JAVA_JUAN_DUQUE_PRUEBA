@@ -18,12 +18,10 @@ public class FacturaController {
         this.facturaService = facturaService;
     }
 
-    @PostMapping("/crear")
-    public ResponseEntity<Facturas> createFactura(@RequestBody Facturas factura) {
-        if (factura.getTotal() == null || factura.getPeridoId() == null) {
-            return ResponseEntity.badRequest().body(null);
-        }
-        Facturas createdFactura = facturaService.createFactura(factura);
+    @PostMapping
+    public ResponseEntity<Factura> createFactura(@RequestBody Factura factura) {
+
+        Factura createdFactura = facturaService.createFactura(factura);
         return new ResponseEntity<>(createdFactura, HttpStatus.CREATED);
     }
 

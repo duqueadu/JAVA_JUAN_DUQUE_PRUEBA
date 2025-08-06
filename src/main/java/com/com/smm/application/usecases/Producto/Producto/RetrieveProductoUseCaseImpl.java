@@ -29,6 +29,11 @@ public class RetrieveProductoUseCaseImpl implements RetrieveProductoUseCase {
     }
 
     @Override
+    public List<?> pmasvendido() {
+        return productoRepositoryPort.pmasvendido();
+    }
+
+    @Override
     public List<?> productoDetalle() {
         return productoRepositoryPort.productoDetalle();
     }

@@ -2,6 +2,7 @@ package com.com.smm.infrastructure.controllers.Pedidos;
 
 import com.com.smm.application.services.Pedidos.EnvioService;
 import com.com.smm.domain.model.Pedidos.Envio;
+import com.com.smm.domain.model.Pedidos.Pedido;
 import com.com.smm.infrastructure.entities.Pedidos.Envios;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -20,13 +21,13 @@ public class EnvioController {
     }
 
     @PostMapping("/crear")
-    public ResponseEntity<Envios> createEnvio(@RequestBody Envios envio) {
-        if (envio.getEmpresaEnvio() == null || envio.getEmpresaEnvio() == null) {
-            return ResponseEntity.badRequest().body(null); // Retorna 400 Bad Request si falta algún campo
-        }
-        Envios createdEnvio = envioService.createEnvio(envio);
+    public ResponseEntity<Envio> createEnvio(@RequestBody Envio envio) {
+
+        Envio createdEnvio = envioService.createEnvio(envio);
         return new ResponseEntity<>(createdEnvio, HttpStatus.CREATED);
     }
+
+
 
     @GetMapping("/{envioId}")
     public ResponseEntity<Envio> getEnvioById(@PathVariable Long envioId) {

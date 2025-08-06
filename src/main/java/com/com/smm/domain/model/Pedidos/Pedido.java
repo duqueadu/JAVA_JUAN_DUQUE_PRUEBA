@@ -3,7 +3,9 @@ package com.com.smm.domain.model.Pedidos;
 import com.com.smm.domain.model.Producto.Categoria;
 import com.com.smm.domain.model.Usuario.Usuario;
 import com.com.smm.infrastructure.entities.Usuario.Usuarios;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 
@@ -13,9 +15,9 @@ public class Pedido {
     private Long id;
 
     private int clienteId;
-    private Date fechaPedido;
+    private LocalDateTime fechaPedido;
     private Long estado;
-    private String total;
+    private int total;
 
     private String direccion;
 
@@ -26,7 +28,7 @@ public class Pedido {
     public Pedido() {
     }
 
-    public Pedido(Long id, int clienteId, Date fechaPedido, Long estado, String total, String direccion, String metodoPago) {
+    public Pedido(Long id, int clienteId, LocalDateTime  fechaPedido, Long estado, int total, String direccion, String metodoPago) {
         this.id = id;
         this.clienteId = clienteId;
         this.fechaPedido = fechaPedido;
@@ -54,11 +56,11 @@ public class Pedido {
         this.clienteId = clienteId;
     }
 
-    public Date getFechaPedido() {
+    public LocalDateTime  getFechaPedido() {
         return fechaPedido;
     }
 
-    public void setFechaPedido(Date fechaPedido) {
+    public void setFechaPedido(LocalDateTime  fechaPedido) {
         this.fechaPedido = fechaPedido;
     }
 
@@ -70,11 +72,11 @@ public class Pedido {
         this.estado = estado;
     }
 
-    public String getTotal() {
+    public int getTotal() {
         return total;
     }
 
-    public void setTotal(String total) {
+    public void setTotal(int total) {
         this.total = total;
     }
 
