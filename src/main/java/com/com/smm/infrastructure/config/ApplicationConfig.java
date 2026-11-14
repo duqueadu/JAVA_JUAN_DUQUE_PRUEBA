@@ -120,7 +120,7 @@ public class ApplicationConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("*")  // Cambia el puerto según tu frontend
+                        .allowedOriginPatterns("*")  // restrict to the frontend origin in production
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true);
