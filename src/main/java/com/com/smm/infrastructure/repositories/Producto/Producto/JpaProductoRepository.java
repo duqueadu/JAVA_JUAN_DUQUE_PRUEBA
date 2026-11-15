@@ -25,12 +25,12 @@ public interface JpaProductoRepository extends JpaRepository<Productos, Long> {
             "    c.nombre AS category_name, -- Nombre de la categoría\n" +
             "    c.descripcion AS category_description, -- Descripción de la categoría\n" +
             "    (SELECT STRING_AGG(c2.id || '-' || c2.nombre || '-' || c2.descripcion, ', ')  \n" +
-            "     FROM categorias c2 \n" +
+            "     FROM categoria c2 \n" +
             "     WHERE c2.id = p.categoria_id) AS categorias -- Agrupar categorías relacionadas\n" +
             "FROM \n" +
             "    productos p\n" +
             "LEFT JOIN \n" +
-            "    categorias c ON p.categoria_id = c.id;",
+            "    categoria c ON p.categoria_id = c.id;",
             nativeQuery = true)
     List<?> productoDetalle();
 
@@ -56,11 +56,11 @@ public interface JpaProductoRepository extends JpaRepository<Productos, Long> {
             "    c.descripcion AS category_description,\n" +
             "\n" +
             "    (SELECT STRING_AGG(c2.id || '|' || c2.nombre || '|' || c2.descripcion, ', ')\n" +
-            "     FROM categorias c2 \n" +
+            "     FROM categoria c2 \n" +
             "     WHERE c2.id = p.categoria_id) AS categorias\n" +
             "\n" +
             "FROM productos p\n" +
-            "LEFT JOIN categorias c ON p.categoria_id = c.id \n" +
+            "LEFT JOIN categoria c ON p.categoria_id = c.id \n" +
             "WHERE p.id = ?;\n",
             nativeQuery = true)
     List<?> productoDetalleid(int id);
@@ -79,12 +79,12 @@ public interface JpaProductoRepository extends JpaRepository<Productos, Long> {
             "    c.nombre AS category_name, -- Nombre de la categoría\n" +
             "    c.descripcion AS category_description, -- Descripción de la categoría\n" +
             "    (SELECT GROUP_CONCAT(c2.id, c2.nombre , c2.descripcion SEPARATOR ', ')  \n" +
-            "     FROM categorias c2 \n" +
+            "     FROM categoria c2 \n" +
             "     WHERE c2.id = p.categoria_id) AS categorias -- Agrupar categorías relacionadas\n" +
             "FROM \n" +
             "    productos p\n" +
             "LEFT JOIN \n" +
-            "    categorias c ON p.categoria_id = c.id  WHERE \n" +
+            "    categoria c ON p.categoria_id = c.id  WHERE \n" +
             "    (:nombre IS NULL OR LOWER(p.nombre) LIKE LOWER(CONCAT('%', :nombre, '%'))) \n" +
             "    AND (:categoriaId IS NULL OR p.categoria_id = :categoriaId);\n",
             nativeQuery = true)
