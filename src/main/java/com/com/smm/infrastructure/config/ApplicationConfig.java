@@ -120,7 +120,7 @@ public class ApplicationConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                 registry.addMapping("/api/**")
-                        .allowedOrigins("*")  // Cambia el puerto según tu frontend
+                        .allowedOrigins("https://adusoft.up.railway.app")  // Cambia el puerto según tu frontend
                         .allowedMethods("GET", "POST", "PUT", "DELETE")
                         .allowedHeaders("*")
                         .allowCredentials(true);
