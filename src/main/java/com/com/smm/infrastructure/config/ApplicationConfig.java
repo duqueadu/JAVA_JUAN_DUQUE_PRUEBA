@@ -119,11 +119,19 @@ public class ApplicationConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                registry.addMapping("/api/**")
-                        .allowedOrigins("https://adusoft.up.railway.app")  // Cambia el puerto según tu frontend
-                        .allowedMethods("GET", "POST", "PUT", "DELETE")
+                  registry.addMapping("/api/**")
+                        .allowedOrigins("https://adusoft.up.railway.app")
+                        .allowedMethods(
+                                "GET",
+                                "POST",
+                                "PUT",
+                                "DELETE",
+                                "PATCH",
+                                "OPTIONS"
+                        )
                         .allowedHeaders("*")
-                        .allowCredentials(true);
+                        .allowCredentials(true)
+                        .maxAge(3600);
             }
         };
     }
