@@ -118,7 +118,7 @@ public class ApplicationConfig {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
                   registry.addMapping("/api/**")
-                        .allowedOrigins("https://aduSoftBack.up.railway.app")
+                        .allowedOrigins("https://adusoft.up.railway.app")
                         .allowedMethods(
                                 "GET",
                                 "POST",
