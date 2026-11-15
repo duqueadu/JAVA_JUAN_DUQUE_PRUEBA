@@ -112,8 +112,6 @@ import java.util.Optional;
 @Configuration
 public class ApplicationConfig {
 
-   
-
     @Bean
     public WebMvcConfigurer corsConfigurer() {
         return new WebMvcConfigurer() {
@@ -135,6 +133,7 @@ public class ApplicationConfig {
             }
         };
     }
+   
     //SEGURIDAD
     //USUARIO
     @Bean
