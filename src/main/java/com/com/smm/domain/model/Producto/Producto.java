@@ -123,4 +123,7 @@ public class Producto {
     public Date getFechaCreacion() {
         return fechaCreacion;
     }
+
+
+
 }

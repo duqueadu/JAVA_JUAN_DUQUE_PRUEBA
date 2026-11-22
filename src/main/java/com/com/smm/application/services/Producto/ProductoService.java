@@ -66,6 +66,11 @@ public class ProductoService implements CreateProductoUseCase, RetrieveProductoU
         return retrieveProductosUseCase.productoDetalleId(id);
     }
 
+    @Override
+    public List<?> productosPorProveedor(Long proveedorId) {
+        return retrieveProductosUseCase.productosPorProveedor(proveedorId);
+    }
+
 
     @Override
     public Optional<Producto> updateProducto(Long id, Productos updatedProductos) {

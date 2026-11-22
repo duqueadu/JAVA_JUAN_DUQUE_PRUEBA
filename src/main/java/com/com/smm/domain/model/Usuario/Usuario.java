@@ -1,11 +1,5 @@
 package com.com.smm.domain.model.Usuario;
 
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.ManyToOne;
-import jakarta.persistence.Temporal;
-import jakarta.persistence.TemporalType;
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 public class Usuario {
@@ -16,19 +10,24 @@ public class Usuario {
     private String contrasena;
     private Long rol;
     private Date fechaCreacion;
+    private String telefono; // Actualizado a String para mantener coherencia con la infraestructura
 
-    public Usuario(Long id, String nombre, String email, String contrasena, Long rol, Date fechaCreacion) {
+    // Constructor completo actualizado
+    public Usuario(Long id, String nombre, String email, String contrasena, Long rol, Date fechaCreacion, String telefono) {
         this.id = id;
         this.nombre = nombre;
         this.email = email;
         this.contrasena = contrasena;
         this.rol = rol;
         this.fechaCreacion = fechaCreacion;
+        this.telefono = telefono;
     }
 
+    // Constructor vacío
     public Usuario() {
-
     }
+
+    // Getters y Setters
 
     public Long getId() {
         return id;
@@ -76,5 +75,13 @@ public class Usuario {
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getTelefono() {
+        return telefono;
+    }
+
+    public void setTelefono(String telefono) {
+        this.telefono = telefono;
     }
 }

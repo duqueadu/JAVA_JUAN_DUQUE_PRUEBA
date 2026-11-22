@@ -44,6 +44,12 @@ public class RetrieveProductoUseCaseImpl implements RetrieveProductoUseCase {
 
     }
 
+    @Override
+    public List<?> productosPorProveedor(Long proveedorId) {
+        return productoRepositoryPort.productosPorProveedor(proveedorId);
+
+    }
+
 
     @Override
     public List<?> buscarPorNombreYCategoria(@Param("nombre") String nombre, @Param("categoriaId") Long categoriaId)

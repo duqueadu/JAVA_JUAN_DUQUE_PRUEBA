@@ -69,7 +69,15 @@ public class ProductoController {
             }
         }
 
+    @GetMapping("/proveedor/{proveedorId}")
+    public ResponseEntity<List<?>> getProductosPorProveedor(@PathVariable Long proveedorId) {
+        List<?> productos = productoservice.productosPorProveedor(proveedorId);
+        if (productos == null || productos.isEmpty()) {
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        return new ResponseEntity<>(productos, HttpStatus.OK);
 
+    }
 
     @GetMapping("/productoDetalle")
     public List<?> getProductById() {

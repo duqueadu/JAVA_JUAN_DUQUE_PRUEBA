@@ -34,6 +34,31 @@ public interface JpaProductoRepository extends JpaRepository<Productos, Long> {
             nativeQuery = true)
     List<?> productoDetalle();
 
+
+    @Query(value = "SELECT \n" +
+            "    p.id AS product_id, \n" +
+            "    p.nombre AS title, \n" +
+            "    p.precio AS price, \n" +
+            "    p.descripcion AS description, \n" +
+            "    (SELECT STRING_AGG(i.url, ', ') FROM imagenes i WHERE i.producto = p.id) AS image_urls, \n" +
+            "    (SELECT STRING_AGG(i.descripcion, ', ') FROM imagenes i WHERE i.producto = p.id) AS image_descriptions, \n" +
+            "    c.id AS category_id, \n" +
+            "    c.nombre AS category_name, \n" +
+            "    c.descripcion AS category_description, \n" +
+            "    (SELECT STRING_AGG(c2.id || '-' || c2.nombre || '-' || c2.descripcion, ', ') \n" +
+            "     FROM categorias c2 \n" +
+            "     WHERE c2.id = p.categoria_id) AS categorias, \n" +
+            "    p.stock AS stock, \n" +
+            "    pr.id AS proveedor_id, \n" +
+            "    pr.nombre AS proveedor_nombre \n" +
+            "FROM productos p \n" +
+            "LEFT JOIN categorias c ON p.categoria_id = c.id \n" +
+            "INNER JOIN proveedores pr ON p.proveedor_id = pr.id \n" +
+            "WHERE p.proveedor_id = ? \n" +
+            "ORDER BY p.id DESC",
+            nativeQuery = true)
+    List<?> productosPorProveedor(Long proveedorId);
+
     @Query(value = "SELECT p.*, SUM(dp.cantidad) AS total_vendida\n" +
             "FROM public.productos p\n" +
             "JOIN public.detalle_pedidos dp ON p.id = dp.producto_id\n" +
@@ -42,26 +67,29 @@ public interface JpaProductoRepository extends JpaRepository<Productos, Long> {
     List<?> pmasvendido();
 
 
-    @Query(value = " SELECT \n" +
-            "    p.id AS product_id, \n" +
-            "    p.nombre AS title, \n" +
-            "    p.precio AS price, \n" +
-            "    p.descripcion AS description,\n" +
-            "\n" +
-            "    (SELECT STRING_AGG(i.url, ', ') FROM imagenes i WHERE i.producto = p.id) AS image_urls,\n" +
-            "    (SELECT STRING_AGG(i.descripcion, ', ') FROM imagenes i WHERE i.producto = p.id) AS image_descriptions,\n" +
-            "\n" +
-            "    c.id AS category_id,\n" +
-            "    c.nombre AS category_name,\n" +
-            "    c.descripcion AS category_description,\n" +
-            "\n" +
-            "    (SELECT STRING_AGG(c2.id || '|' || c2.nombre || '|' || c2.descripcion, ', ')\n" +
-            "     FROM categorias c2 \n" +
-            "     WHERE c2.id = p.categoria_id) AS categorias\n" +
-            "\n" +
-            "FROM productos p\n" +
-            "LEFT JOIN categorias c ON p.categoria_id = c.id \n" +
-            "WHERE p.id = ?;\n",
+    @Query(value = "SELECT " +
+            "    p.id AS product_id, " +
+            "    p.nombre AS title, " +
+            "    p.precio AS price, " +
+            "    p.descripcion AS description, " +
+            "    (SELECT STRING_AGG(i.url, ', ') FROM imagenes i WHERE i.producto = p.id) AS image_urls, " +
+            "    (SELECT STRING_AGG(i.descripcion, ', ') FROM imagenes i WHERE i.producto = p.id) AS image_descriptions, " +
+            "    c.id AS category_id, " +
+            "    c.nombre AS category_name, " +
+            "    c.descripcion AS category_description, " +
+            "    (SELECT STRING_AGG(c2.id || '|' || c2.nombre || '|' || c2.descripcion, ', ') " +
+            "     FROM categorias c2 " +
+            "     WHERE c2.id = p.categoria_id) AS categorias, " +
+            "    p.stock AS stock, " +
+            "    pr.id AS proveedor_id, " +
+            "    pr.nombre AS proveedor_nombre, " +
+            "    pr.contacto AS proveedor_contacto, " +
+            "    pr.email AS proveedor_email, " +
+            "    pr.telefono AS proveedor_telefono " +
+            "FROM productos p " +
+            "LEFT JOIN categorias c ON p.categoria_id = c.id " +
+            "LEFT JOIN proveedores pr ON p.proveedor_id = pr.id " +
+            "WHERE p.id = ?",
             nativeQuery = true)
     List<?> productoDetalleid(int id);
 

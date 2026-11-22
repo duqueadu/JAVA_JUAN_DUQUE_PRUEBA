@@ -14,7 +14,7 @@ public interface RetrieveProductoUseCase {
     List<?> pmasvendido();
     List<?> productoDetalle();
     List<?> productoDetalleId(int id);
-
+    List<?> productosPorProveedor(Long proveedorId);
     List<?> buscarPorNombreYCategoria(@Param("nombre") String nombre, @Param("categoriaId") Long categoriaId);
 
 

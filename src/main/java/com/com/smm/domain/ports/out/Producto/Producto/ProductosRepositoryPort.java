@@ -13,6 +13,8 @@ import java.util.Optional;
 
 public interface ProductosRepositoryPort {
 
+    List<?> productosPorProveedor(Long id);
+
     List<?> productoDetalleid();
     List<?> productoDetalleid(int id);
 
@@ -36,5 +38,4 @@ public interface ProductosRepositoryPort {
     List<?> buscarPorNombreYCategoria(@Param("nombre") String nombre, @Param("categoriaId") Long categoriaId);
 
 
-    
 }

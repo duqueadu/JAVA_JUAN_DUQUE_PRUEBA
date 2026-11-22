@@ -24,6 +24,10 @@ public class JpaProductoRepositoryAdapter implements ProductosRepositoryPort {
         this.JpaProductoRepository = JpaProductoRepository;
     }
 
+    @Override
+    public List<?> productosPorProveedor(Long id) {
+        return JpaProductoRepository.productosPorProveedor(id);
+    }
 
     @Override
     public List<?> productoDetalleid() {

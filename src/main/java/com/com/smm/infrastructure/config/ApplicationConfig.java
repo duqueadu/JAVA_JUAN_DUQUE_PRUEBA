@@ -1,11 +1,16 @@
 package com.com.smm.infrastructure.config;
 
+import com.com.smm.application.services.Producto.InteresadoArriendoService;
 import com.com.smm.application.services.Pedidos.*;
 import com.com.smm.application.services.Producto.*;
 import com.com.smm.application.services.Seguridad.PermisosService;
 import com.com.smm.application.services.Seguridad.RolPermisoService;
 import com.com.smm.application.services.Seguridad.RolesService;
 import com.com.smm.application.services.UsuarioService;
+import com.com.smm.application.usecases.Producto.InteresadoArriendo.CreateInteresadoArriendoUseCaseImpl;
+import com.com.smm.application.usecases.Producto.InteresadoArriendo.DeleteInteresadoArriendoUseCaseImpl;
+import com.com.smm.application.usecases.Producto.InteresadoArriendo.RetrieveInteresadoArriendoUseCaseImpl;
+import com.com.smm.application.usecases.Producto.InteresadoArriendo.UpdateInteresadoArriendoUseCaseImpl;
 import com.com.smm.application.usecases.Pedidos.DetallePedido.CreateDetallePedidoUseCaseImpl;
 import com.com.smm.application.usecases.Pedidos.DetallePedido.DeleteDetallePedidoUseCaseImpl;
 import com.com.smm.application.usecases.Pedidos.DetallePedido.RetrieveDetallePedidoUseCaseImpl;
@@ -59,9 +64,7 @@ import com.com.smm.application.usecases.Seguridad.RolPermiso.DeleteRolPermisoUse
 import com.com.smm.application.usecases.Seguridad.RolPermiso.RetrieveRolPermisoUseCaseImpl;
 import com.com.smm.application.usecases.Seguridad.RolPermiso.UpdateRolPermisoUseCaseImpl;
 import com.com.smm.application.usecases.Usuario.*;
-import com.com.smm.domain.model.Pedidos.DetallePedido;
-import com.com.smm.domain.model.Producto.Categoria;
-import com.com.smm.domain.ports.in.Producto.Categoria.UpdateCategoriaUseCase;
+import com.com.smm.domain.ports.out.Producto.InteresadoArriendo.InteresadoArriendoRepositoryPort;
 import com.com.smm.domain.ports.out.Pedidos.DetallePedido.DetallePedidoRepositoryPort;
 import com.com.smm.domain.ports.out.Pedidos.Envio.EnvioRepositoryPort;
 import com.com.smm.domain.ports.out.Pedidos.Factura.FacturaRepositoryPort;
@@ -77,8 +80,7 @@ import com.com.smm.domain.ports.out.Seguridad.RolPermisoRepositoryPort;
 import com.com.smm.domain.ports.out.Seguridad.RolesRepositoryPort;
 import com.com.smm.domain.ports.out.Usuario.UsuarioRepositoryPort;
 
-import com.com.smm.infrastructure.entities.Producto.Categorias;
-import com.com.smm.infrastructure.repositories.Pedidos.DetallePedido.JpaDetallePedidoRepository;
+import com.com.smm.infrastructure.repositories.Producto.InteresadoArriendo.JpaInteresadoArriendoRepositoryAdapter;
 import com.com.smm.infrastructure.repositories.Pedidos.DetallePedido.JpaDetallePedidoRepositoryAdapter;
 import com.com.smm.infrastructure.repositories.Pedidos.Envio.JpaEnvioRepositoryAdapter;
 import com.com.smm.infrastructure.repositories.Pedidos.Factura.JpaFacturaRepitoryAdapter;
@@ -87,9 +89,7 @@ import com.com.smm.infrastructure.repositories.Pedidos.Pedido.JpaPedidoRepositor
 import com.com.smm.infrastructure.repositories.Producto.Categoria.JpaCategoriaRepositoryAdapter;
 import com.com.smm.infrastructure.repositories.Producto.Imagen.JpaImagenRepositoryAdapter;
 import com.com.smm.infrastructure.repositories.Producto.Producto.JpaProductoRepositoryAdapter;
-import com.com.smm.infrastructure.repositories.Producto.Proveedor.JpaProveedorRepository;
 import com.com.smm.infrastructure.repositories.Producto.Proveedor.JpaProveedorRepositoryAdapter;
-import com.com.smm.infrastructure.repositories.Producto.Subcategoria.JpaSubcategoriaRepository;
 import com.com.smm.infrastructure.repositories.Producto.Subcategoria.JpaSubcategoriaRepositoryAdapter;
 import com.com.smm.infrastructure.repositories.Seguridad.Permiso.JpaPermisoRepositoryAdapter;
 import com.com.smm.infrastructure.repositories.Seguridad.Rol.JpaRolRepositoryAdapter;
@@ -99,15 +99,8 @@ import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
-import org.springframework.http.client.ClientHttpRequestInterceptor;
-import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
-import org.springframework.web.client.RestTemplate;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 
 @Configuration
 public class ApplicationConfig {
@@ -117,8 +110,8 @@ public class ApplicationConfig {
         return new WebMvcConfigurer() {
             @Override
             public void addCorsMappings(CorsRegistry registry) {
-                  registry.addMapping("/api/**")
-                        .allowedOrigins("https://adusoft.up.railway.app")
+                registry.addMapping("/api/**")
+                        .allowedOrigins("http://localhost:4200")
                         .allowedMethods(
                                 "GET",
                                 "POST",
@@ -133,7 +126,7 @@ public class ApplicationConfig {
             }
         };
     }
-   
+
     //SEGURIDAD
     //USUARIO
     @Bean
@@ -144,14 +137,14 @@ public class ApplicationConfig {
                 new UpdateUsuarioUseCaseImpl(usuarioRepositoryPort),
                 new DeleteUsuarioUseCaseImpl(usuarioRepositoryPort),
                 new LoginUsuarioUseCaseImpl(usuarioRepositoryPort)
-
         );
     }
     @Bean
     public UsuarioRepositoryPort usuarioRepositoryPort(JpaUsuarioRepositoryAdapter jpaUsuarioRepositoryAdapter) {
         return jpaUsuarioRepositoryAdapter;
     }
-   // ROLES
+
+    // ROLES
     @Bean
     public RolesService RolesService(RolesRepositoryPort RepositoryPort ) {
         return new RolesService(
@@ -166,6 +159,7 @@ public class ApplicationConfig {
     public RolesRepositoryPort rolesRepositoryPort(JpaRolRepositoryAdapter jpaRolRepositoryAdapter) {
         return jpaRolRepositoryAdapter;
     }
+
     //PERMISO
     @Bean
     public PermisosService PermisosService(PermisosRepositoryPort permisosRepositoryPort ) {
@@ -177,11 +171,11 @@ public class ApplicationConfig {
         );
     }
 
-
     @Bean
     public PermisosRepositoryPort PermisosRepositoryPort(JpaPermisoRepositoryAdapter jpaPermisoRepositoryAdapter) {
         return jpaPermisoRepositoryAdapter;
     }
+
     //ROL PERMISO
     @Bean
     public RolPermisoService RolPermisoService(RolPermisoRepositoryPort rolPermisoRepositoryPort ) {
@@ -198,9 +192,6 @@ public class ApplicationConfig {
         return jpaRolPermisoRepositoryAdapter;
     }
 
-
-
-    //PRODUCTO
     //PRODUCTO
     @Bean
     public ProductoService ProductoService(ProductosRepositoryPort productosRepositoryPort ) {
@@ -212,8 +203,6 @@ public class ApplicationConfig {
         );
     }
 
-
-
     @Bean
     public CategoriaService categoriaService(@Qualifier("jpaCategoriaRepositoryAdapter") CategoriaRepositoryPort categoriaRepositoryPort) {
         return new CategoriaService( new CreateCategoriaUseCaseImpl(categoriaRepositoryPort),
@@ -224,7 +213,7 @@ public class ApplicationConfig {
 
     //SUBCATEGORIA
     @Bean
-    public SubcategoriaService  SubcategoriaService(SubcategoriaRepositoryPort SubcategoriaRepositoryPort ) {
+    public SubcategoriaService SubcategoriaService(SubcategoriaRepositoryPort SubcategoriaRepositoryPort ) {
         return new SubcategoriaService(
                 new CreateSubcategoriaUseCaseImpl(SubcategoriaRepositoryPort),
                 new RetrieveSubcategoriaUseCaseImpl(SubcategoriaRepositoryPort),
@@ -237,7 +226,6 @@ public class ApplicationConfig {
     public SubcategoriaRepositoryPort SubcategoriaRepositoryPort(JpaSubcategoriaRepositoryAdapter JpaSubcategoriaRepositoryAdapter) {
         return JpaSubcategoriaRepositoryAdapter;
     }
-
 
     //PROVEEDOR
     @Bean
@@ -271,8 +259,6 @@ public class ApplicationConfig {
         return  JpaImagenRepositoryAdapter;
     }
 
-
-
     //PEDIDOS
     //DETALLE PEDIDO
     @Bean
@@ -285,9 +271,10 @@ public class ApplicationConfig {
         );
     }
 
-
-
-
+    @Bean
+    public DetallePedidoRepositoryPort detallePedidoRepositoryPort(JpaDetallePedidoRepositoryAdapter j) {
+        return j;
+    }
 
     //PEDIDO
     @Bean
@@ -304,8 +291,6 @@ public class ApplicationConfig {
     public PedidoRepositoryPort PedidoRepositoryPort(JpaPedidoRepositoryAdapter JpaPedidoRepositoryAdapter) {
         return JpaPedidoRepositoryAdapter;
     }
-
-
 
     //ENVIO
     @Bean
@@ -324,11 +309,9 @@ public class ApplicationConfig {
         return  jpaEnvioRepositoryAdapter;
     }
 
-
-
     //MEDIO ENVIO
     @Bean
-    public MedioEnvioService  MedioEnvioService(MedioEnvioRepositoryPort MedioEnvioRepositoryPort ) {
+    public MedioEnvioService MedioEnvioService(MedioEnvioRepositoryPort MedioEnvioRepositoryPort ) {
         return new MedioEnvioService(
                 new CreateMedioEnvioUseCaseImpl(MedioEnvioRepositoryPort),
                 new RetrieveMedioEnvioUseCaseImpl(MedioEnvioRepositoryPort),
@@ -342,8 +325,7 @@ public class ApplicationConfig {
         return  JpaMedioEnvioRepitoryAdapter;
     }
 
-
-    //Facrura
+    //Factura
     @Bean
     public FacturaService FacturaService(FacturaRepositoryPort FacturaRepositoryPort ) {
         return new FacturaService(
@@ -359,25 +341,22 @@ public class ApplicationConfig {
         return  JpaFacturaRepitoryAdapter;
     }
 
-
-
+    // INTERESADO ARRIENDO (ARRIENDOS)
     @Bean
-    public DetallePedidoService detallePedidoService(DetallePedidoRepositoryPort detallePedidoRepositoryPort) {
-        return new DetallePedidoService(
-                new CreateDetallePedidoUseCaseImpl(detallePedidoRepositoryPort),
-                new RetrieveDetallePedidoUseCaseImpl(detallePedidoRepositoryPort),
-                new UpdateDetallePedidoUseCaseImpl(detallePedidoRepositoryPort),
-                new DeleteDetallePedidoUseCaseImpl(detallePedidoRepositoryPort)
+    public InteresadoArriendoService interesadoArriendoService(InteresadoArriendoRepositoryPort interesadoArriendoRepositoryPort) {
+        return new InteresadoArriendoService(
+                new CreateInteresadoArriendoUseCaseImpl(interesadoArriendoRepositoryPort),
+                new RetrieveInteresadoArriendoUseCaseImpl(interesadoArriendoRepositoryPort),
+                new UpdateInteresadoArriendoUseCaseImpl(interesadoArriendoRepositoryPort),
+                new DeleteInteresadoArriendoUseCaseImpl(interesadoArriendoRepositoryPort)
         );
     }
 
-
-
     @Bean
-    public DetallePedidoRepositoryPort detallePedidoRepositoryPort(JpaDetallePedidoRepositoryAdapter j) {
-        return j;
+    @Primary // <-- Esto le dice a Spring que elija este bean cuando haya ambigüedad
+    public InteresadoArriendoRepositoryPort interesadoArriendoRepositoryPort(JpaInteresadoArriendoRepositoryAdapter jpaInteresadoArriendoRepositoryAdapter) {
+        return jpaInteresadoArriendoRepositoryAdapter;
     }
-
 
 
 }
